@@ -14,7 +14,7 @@
     --orange: #ec5a29; --orange-soft: rgba(236,90,41,.1);
     --white: #fff; --mut: #5c6b7a; --line: rgba(26,42,57,.12);
   }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 84px; }
   body { font-family: "Inter", sans-serif; background: var(--bg); color: var(--blue); overflow-x: hidden; }
   ::selection { background: var(--orange); color: #fff; }
   #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--orange); z-index: 50; }
@@ -24,8 +24,9 @@
   nav .logo span { color: var(--orange); }
   nav a.link { color: rgba(255,255,255,.65); text-decoration: none; font-size: 13px; margin-left: 22px; }
   nav a.link:hover { color: #fff; }
-  nav .btn { background: var(--orange); color: #fff; font-weight: 700; font-size: 13px; padding: 10px 20px; border-radius: 8px; text-decoration: none; }
+  nav .btn { background: var(--orange); color: #fff; font-weight: 700; font-size: 13px; padding: 10px 20px; border-radius: 8px; text-decoration: none; white-space: nowrap; }
   nav .btn:hover { background: #d14e22; }
+  nav .btn-short { display: none; }
   .hero { position: relative; min-height: 100vh; display: flex; align-items: center; padding: 120px 32px 0; overflow: hidden; background: var(--bg); color: var(--blue); }
   #net { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .55; }
   .hero::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 65% 50% at 30% 35%, rgba(255,255,255,.7) 0%, transparent 70%); pointer-events: none; }
@@ -53,6 +54,7 @@
   .stage img.laptop { width: min(600px, 60%); animation-delay: 0s; }
   .stage img.phone { width: min(220px, 22%); animation-delay: 1.2s; }
   .stage img.phone:last-child { animation-delay: 2.4s; }
+  .stage { min-width: 0; }
   @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
   .stage-cap { display: flex; justify-content: center; gap: 34px; margin-top: 18px; font-size: 12.5px; color: var(--mut); flex-wrap: wrap; }
   .stage-cap b { color: var(--blue); }
@@ -96,7 +98,13 @@
   .chart-box { background: var(--white); border-radius: 16px; padding: 26px; border: 1px solid var(--line); }
   .chart-box h4 { font-family: "Golos Text", sans-serif; font-size: 16px; margin-bottom: 4px; }
   .chart-box .sub { color: var(--mut); font-size: 13px; margin-bottom: 16px; }
+  .chart-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; min-width: 0; max-width: 100%; }
+  .chart-scroll svg { min-width: 0; display: block; }
+  .chart-hint { display: none; color: var(--mut); font-size: 11.5px; margin-bottom: 10px; }
+  .chart-box, .compare-box { min-width: 0; overflow: hidden; }
+  .charts, .cards3, .tariffs, .tl, .stats { min-width: 0; }
   #traffic { width: 100%; height: auto; }
+  #traffic text { font-family: "Inter", sans-serif; }
   #traffic .grid { stroke: rgba(26,42,57,.12); }
   #traffic .line1 { fill: none; stroke: var(--orange); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 620; stroke-dashoffset: 620; }
   #traffic .line2 { fill: none; stroke: rgba(26,42,57,.3); stroke-width: 2; stroke-dasharray: 6 6; }
@@ -157,7 +165,85 @@
   .cta h3 { font-family: "Golos Text", sans-serif; font-size: 26px; margin-bottom: 8px; }
   .cta p { color: rgba(255,255,255,.7); font-size: 15px; max-width: 560px; }
   footer { text-align: center; color: #8a97a5; font-size: 13px; padding: 34px 0 10px; }
-  @media (max-width: 860px) { .cards3, .tariffs, .charts, .tl, .stats { grid-template-columns: 1fr; } .hero-inner { grid-template-columns: 1fr; } nav a.link { display: none; } .hero { padding: 120px 20px 0; } .wrap { padding: 0 20px 60px; } section.dark { padding: 50px 24px; } }
+  @media (max-width: 860px) {
+    .cards3, .tariffs, .charts, .tl, .stats { grid-template-columns: 1fr; }
+    .hero-inner { grid-template-columns: 1fr; }
+    nav a.link { display: none; }
+    .hero { padding: 120px 20px 0; }
+    .wrap { padding: 0 20px 60px; }
+    section.dark { padding: 50px 24px; }
+  }
+  /* ---- мобильная версия ---- */
+  @media (max-width: 640px) {
+    nav { padding: 12px 16px; }
+    nav .logo { font-size: 13px; letter-spacing: .3px; }
+    nav .logo span { display: block; font-size: 11px; letter-spacing: 1px; }
+    nav .btn { font-size: 12px; padding: 9px 14px; }
+    nav .btn-long { display: none; }
+    nav .btn-short { display: inline-block; }
+    /* первый экран: одна колонка */
+    .hero { padding: 96px 20px 0; min-height: auto; }
+    .hero-top { grid-template-columns: 1fr; gap: 22px; align-items: start; }
+    .hero-top > div { min-width: 0; }
+    .hero-inner { padding-bottom: 28px; }
+    h1.display { font-size: clamp(38px, 11vw, 54px); letter-spacing: -1.5px; }
+    .kicker { font-size: 10px; letter-spacing: 1.2px; padding: 8px 14px; margin-bottom: 18px; line-height: 1.5; max-width: 240px; white-space: normal; }
+    .hero-sub p { font-size: 15.5px; max-width: none; }
+    .hero-cta { margin-top: 20px; }
+    .hero-cta a { flex: 1 1 auto; text-align: center; padding: 13px 16px; }
+    /* мокапы: ноутбук сверху, телефоны в ряд под ним */
+    .stage { flex-direction: column; align-items: center; gap: 14px; margin-top: 34px; }
+    .stage img.laptop { width: min(420px, 92%); }
+    .stage img.phone { width: min(150px, 40%); }
+    .stage img.phone:last-child { margin-left: -60px; margin-top: -46px; }
+    .stage-cap { gap: 14px; font-size: 11.5px; margin-top: 12px; }
+    .stage-cap span { flex: 1 1 28%; }
+    /* тёмная секция */
+    section.dark { padding: 44px 18px; border-radius: 20px; margin-top: 56px; }
+    .stats { gap: 12px; }
+    .stat { padding: 20px 18px; }
+    .stat .v { font-size: 36px; }
+    /* схема: стрелки вниз */
+    .scheme { flex-direction: column; gap: 0; }
+    .scheme .node { width: 100%; flex: 0 0 auto; }
+    .scheme .arrow { transform: rotate(90deg); margin: 2px 0; font-size: 18px; }
+    @keyframes push { 50% { transform: rotate(90deg) translateX(6px); opacity: .5; } }
+    /* графики */
+    .chart-box { padding: 20px 16px; }
+    .chart-box h4 { font-size: 15px; }
+    .charts { gap: 12px; }
+    .chart-hint { display: block; }
+    .chart-scroll { margin: 0 -4px; padding: 0 4px; }
+    .chart-scroll::-webkit-scrollbar { height: 4px; }
+    .chart-scroll::-webkit-scrollbar-thumb { background: rgba(26,42,57,.2); border-radius: 4px; }
+    #traffic, #compare { width: 460px; max-width: none; flex-shrink: 0; }
+    .compare-box { padding: 20px 14px; }
+    .legend { flex-direction: column; gap: 8px; }
+    /* тарифы */
+    .tar { padding: 26px 20px; }
+    .tar .t-price { font-size: 34px; }
+    .tariffs { gap: 14px; }
+    /* таймлайн */
+    .month { padding: 22px 18px; }
+    .month::after { font-size: 78px; }
+    /* CTA */
+    .cta { padding: 32px 22px; gap: 18px; }
+    .cta h3 { font-size: 22px; }
+    .cta .btn-org { width: 100%; text-align: center; }
+    /* отступы секций */
+    section { padding: 62px 0 10px; }
+    h2.title { font-size: clamp(27px, 7.6vw, 38px); }
+    .lead { font-size: 15.5px; }
+    .sec-tag { font-size: 11px; letter-spacing: 1.6px; }
+    .g-card { padding: 22px 20px; }
+    .g-card b { font-size: 17px; }
+    .g-card p { font-size: 14px; }
+    .marquee span { font-size: 12px; letter-spacing: 2px; }
+  }
+  @media (max-width: 380px) {
+    .stage img.phone:last-child { margin-left: -48px; }
+    .hero-cta { flex-direction: column; }
+  }
 </style>
 </head>
 <body>
@@ -168,7 +254,8 @@
     <a class="link" href="#plan">План</a>
     <a class="link" href="#effect">Эффект</a>
     <a class="link" href="#price">Тарифы</a>
-    <a class="btn" href="#price" style="margin-left:22px">Выбрать формат</a>
+    <a class="btn btn-long" href="#price" style="margin-left:22px">Выбрать формат</a>
+    <a class="btn btn-short" href="#price" style="margin-left:14px">Тарифы</a>
   </div>
 </nav>
 
@@ -237,6 +324,8 @@
     <div class="chart-box" id="chartTraffic">
       <h4>Охват из поиска</h4>
       <div class="sub">прогноз: 6 месяцев регулярных публикаций</div>
+      <div class="chart-hint">→ график листается вбок</div>
+      <div class="chart-scroll">
       <svg id="traffic" viewBox="0 0 560 260">
         <defs>
           <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
@@ -261,6 +350,7 @@
           <text x="330" y="195" fill="#5c6b7a">без контента — плоско</text>
         </g>
       </svg>
+      </div>
     </div>
     <div class="chart-box" id="chartBars">
       <h4>Страницы на сайте</h4>
@@ -323,6 +413,8 @@
   <div class="compare-box">
     <h4>Чем выше тариф — тем больше объёма</h4>
     <div class="sub">страницы сайта и посты в соцсетях в месяц по каждому формату</div>
+    <div class="chart-hint">→ график листается вбок</div>
+    <div class="chart-scroll">
     <svg id="compare" viewBox="0 0 560 240">
       <g class="cgrid">
         <line x1="46" y1="20" x2="540" y2="20"/><line x1="46" y1="61" x2="540" y2="61"/>
@@ -354,6 +446,7 @@
       <text x="466" y="204" font-size="13" font-weight="700" fill="#1a2a39" text-anchor="middle">Комплексный</text>
       <text x="466" y="221" font-size="11" fill="#5c6b7a" text-anchor="middle">4 соцсети</text>
     </svg>
+    </div>
     <div class="legend"><span><i style="background:#ec5a29"></i>страницы сайта: статьи и посадочные</span><span><i style="background:#1a2a39"></i>посты в соцсетях</span></div>
   </div>
   <div class="tariffs">
